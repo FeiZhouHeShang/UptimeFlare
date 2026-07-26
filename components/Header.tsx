@@ -32,7 +32,7 @@ export default function Header({ style }: { style?: React.CSSProperties }) {
           >
             {/* 替换为你的动图链接 */}
             <Image
-              src="https://tc.d15.cc.cd/file/动图/1785065548694_GIF.gif"
+              src="https://tc.d15.cc.cd/file/GIF/1785065548694_GIF.gif"
               h={56}
               w={{ base: 140, sm: 190 }}
               fit="contain"
