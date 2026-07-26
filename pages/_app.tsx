@@ -7,7 +7,8 @@ import '@/util/i18n'
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <NoSsr>
-      <MantineProvider defaultColorScheme="auto">
+      {/* 将 defaultColorScheme 从 'auto' 改为 'dark' */}
+      <MantineProvider defaultColorScheme="dark">
         <Component {...pageProps} />
       </MantineProvider>
     </NoSsr>
