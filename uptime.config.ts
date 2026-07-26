@@ -17,9 +17,9 @@ const pageConfig: PageConfig = {
   // 导航栏链接（显示在页面顶部，可自由增删）
   links: [
     { link: 'https://github.com/FeiZhouHeShang', label: 'GitHub' },
-    { link: 'https://55633000.ccwu.cc/', label: '博客' },
-    { link: 'https://55633000.ccwu.cc/', label: '图床' },
-    { link: 'http://dy.mxdl.ccwu.cc/', label: '订阅系统' },
+    { link: 'http://55633000.ccwu.cc', label: '博客' },
+    { link: 'http://tc.d15.cc.cd', label: '图床' },
+    { link: 'http://dy.mxdl.ccwu.cc', label: '订阅系统' },
     // highlight: true 会让该链接高亮显示（突出主要链接）
     { link: 'mailto:5563000@qq.com', label: '联系站长', highlight: true },
   ],
@@ -57,9 +57,9 @@ const workerConfig: WorkerConfig = {
     // =============================================
     {
       id: 'blog_site',
-      name: '📝 博客 (55633000.ccwu.cc/博客)',
+      name: '📝 个人博客 ',
       method: 'GET',
-      target: 'https://55633000.ccwu.cc/%E5%8D%9A%E5%AE%A2', // URL 编码版本
+      target: 'https://55633000.ccwu.cc', // URL 编码版本
       // 如果你服务端用的是英文路径 /blog，改成下面这行（注释掉上面那行）：
       // target: 'https://55633000.ccwu.cc/blog',
       tooltip: '个人博客，分享技术和生活',
@@ -73,9 +73,9 @@ const workerConfig: WorkerConfig = {
     // =============================================
     {
       id: 'image_hosting_site',
-      name: '🖼️ 图床 (55633000.ccwu.cc/图床)',
+      name: '🖼️ 图床 ',
       method: 'GET',
-      target: 'https://55633000.ccwu.cc/%E5%9B%BE%E5%BA%8A', // URL 编码版本
+      target: 'https://tc.d15.cc.cd', // URL 编码版本
       // 如果你服务端用的是英文路径 /image，改成下面这行：
       // target: 'https://55633000.ccwu.cc/image',
       tooltip: '个人图床，基于 Cloudflare 存储',
