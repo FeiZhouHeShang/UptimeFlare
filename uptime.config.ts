@@ -36,7 +36,7 @@ const workerConfig: WorkerConfig = {
     // =============================================
     {
       id: 'kk_main_site',           // 唯一标识符（一旦确定不要再改，否则历史数据会丢失）
-      name: '🌐 主站 (kk.mxdl.ccwu.cc)', // 显示名称（支持 emoji）
+      name: '🌐 主站 MXDL-站点', // 显示名称（支持 emoji）
       method: 'GET',                // HTTP 请求方法（GET/POST/PUT 等）
       target: 'http://kk.mxdl.ccwu.cc/', // 监控目标 URL
       tooltip: '主站首页，基于 Firefly 博客模板', // 鼠标悬停时的提示
@@ -89,7 +89,7 @@ const workerConfig: WorkerConfig = {
     // =============================================
     {
       id: 'dy_subscribe_system',
-      name: '📡 订阅管理系统 (dy.mxdl.ccwu.cc)',
+      name: '📡 订阅管理系统',
       method: 'GET',
       target: 'http://dy.mxdl.ccwu.cc/',
       tooltip: '订阅管理系统（如 RSS 订阅等）',
