@@ -1,134 +1,165 @@
-// This is a simplified example config file for quickstart
-// Some not frequently used features are omitted/commented out here
-// For a full-featured example, please refer to `uptime.config.full.ts`
+// ============================================================
+// UptimeFlare 完整配置文件（已根据你的站点定制）
+// 项目地址：https://github.com/lyc8503/UptimeFlare
+// 监控站点：主站、博客、图床、订阅管理系统
+// ============================================================
 
-// Don't edit this line
+// 引入类型定义（不要修改这行）
 import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
 
+// ============================================================
+// 1. 状态页面配置（页面标题、导航栏链接等）
+// ============================================================
 const pageConfig: PageConfig = {
-  // Title for your status page
-  title: "lyc8503's Status Page",
-  // Links shown at the header of your status page, could set `highlight` to `true`
+  // 状态页面标题（显示在浏览器标签和页面头部）
+  title: "我的服务监控面板 - 非洲和尚",
+  
+  // 导航栏链接（显示在页面顶部，可自由增删）
   links: [
-    { link: 'https://github.com/lyc8503', label: 'GitHub' },
-    { link: 'https://blog.lyc8503.net/', label: 'Blog' },
-    { link: 'mailto:me@lyc8503.net', label: 'Email Me', highlight: true },
+    { link: 'https://github.com/FeiZhouHeShang', label: 'GitHub' },
+    { link: 'https://55633000.ccwu.cc/', label: '博客' },
+    { link: 'https://55633000.ccwu.cc/', label: '图床' },
+    { link: 'http://dy.mxdl.ccwu.cc/', label: '订阅系统' },
+    // highlight: true 会让该链接高亮显示（突出主要链接）
+    { link: 'mailto:5563000@qq.com', label: '联系站长', highlight: true },
   ],
 }
 
+// ============================================================
+// 2. 监控项配置（核心：定义要监控的所有服务）
+// ============================================================
 const workerConfig: WorkerConfig = {
-  // Define all your monitors here
+  // -------- 监控项列表（按需增删） --------
   monitors: [
-    // Example HTTP Monitor
+    // =============================================
+    // 监控项 1：主站 (kk.mxdl.ccwu.cc)
+    // =============================================
     {
-      // `id` should be unique, history will be kept if the `id` remains constant
-      id: 'foo_monitor',
-      // `name` is used at status page and callback message
-      name: 'My API Monitor',
-      // `method` should be a valid HTTP Method
+      id: 'kk_main_site',           // 唯一标识符（一旦确定不要再改，否则历史数据会丢失）
+      name: '🌐 主站 (kk.mxdl.ccwu.cc)', // 显示名称（支持 emoji）
+      method: 'GET',                // HTTP 请求方法（GET/POST/PUT 等）
+      target: 'http://kk.mxdl.ccwu.cc/', // 监控目标 URL
+      tooltip: '主站首页，基于 Firefly 博客模板', // 鼠标悬停时的提示
+      statusPageLink: 'http://kk.mxdl.ccwu.cc/', // 状态页点击后跳转的链接
+      expectedCodes: [200, 301, 302], // 认为正常的 HTTP 状态码（200/301/302 都算正常）
+      timeout: 10000,               // 超时时间（毫秒），默认 10000
+      // 如果响应内容必须包含某关键词才认为正常（取消注释启用）
+      // responseKeyword: '欢迎访问',
+      // 如果响应内容包含某关键词则认为异常（取消注释启用）
+      // responseForbiddenKeyword: 'error',
+    },
+
+    // =============================================
+    // 监控项 2：博客 (55633000.ccwu.cc/博客)
+    // ⚠️ 注意：URL 中的中文建议使用 URL 编码
+    //    "博客" 的 UTF-8 编码为 %E5%8D%9A%E5%AE%A2
+    //    你也可以直接在服务端改成 /blog 英文路径
+    // =============================================
+    {
+      id: 'blog_site',
+      name: '📝 博客 (55633000.ccwu.cc/博客)',
       method: 'GET',
-      // `target` is a valid URL
-      target: 'https://example.com',
-      // [OPTIONAL] `tooltip` is ONLY used at status page to show a tooltip
-      tooltip: 'This is a tooltip for this monitor',
-      // [OPTIONAL] `statusPageLink` is ONLY used for clickable link at status page
-      statusPageLink: 'https://example.com',
-      // [OPTIONAL] `expectedCodes` is an array of acceptable HTTP response codes, if not specified, default to 2xx
-      expectedCodes: [200],
-      // [OPTIONAL] `timeout` in millisecond, if not specified, default to 10000
+      target: 'https://55633000.ccwu.cc/%E5%8D%9A%E5%AE%A2', // URL 编码版本
+      // 如果你服务端用的是英文路径 /blog，改成下面这行（注释掉上面那行）：
+      // target: 'https://55633000.ccwu.cc/blog',
+      tooltip: '个人博客，分享技术和生活',
+      statusPageLink: 'https://55633000.ccwu.cc/%E5%8D%9A%E5%AE%A2',
+      expectedCodes: [200, 301, 302],
       timeout: 10000,
-      // [OPTIONAL] headers to be sent
-      headers: {
-        'User-Agent': 'Uptimeflare',
-        Authorization: 'Bearer YOUR_TOKEN_HERE',
-      },
-      // [OPTIONAL] body to be sent (require POST/PUT/PATCH method)
-      // body: 'Hello, world!',
-      // [OPTIONAL] if specified, the response must contains the keyword to be considered as operational.
-      // responseKeyword: 'success',
-      // [OPTIONAL] if specified, the response must NOT contains the keyword to be considered as operational.
-      // responseForbiddenKeyword: 'bad gateway',
-      // [OPTIONAL] if specified, will call the check proxy to check the monitor, mainly for geo-specific checks
-      // refer to docs https://github.com/lyc8503/UptimeFlare/wiki/Check-proxy-setup before setting this value
-      // currently supports `worker://`, `globalping://` and `http(s)://` proxies
-      // checkProxy: 'worker://weur',
-      // [OPTIONAL] if true, the check will fallback to local if the specified proxy is down
-      // checkProxyFallback: true,
     },
-    // Example TCP Monitor
+
+    // =============================================
+    // 监控项 3：图床 (55633000.ccwu.cc/图床)
+    // =============================================
     {
-      id: 'test_tcp_monitor',
-      name: 'Example TCP Monitor',
-      // `method` should be `TCP_PING` for tcp monitors
-      method: 'TCP_PING',
-      // `target` should be `host:port` for tcp monitors
-      target: '1.2.3.4:22',
-      tooltip: 'My production server SSH',
-      statusPageLink: 'https://example.com',
-      timeout: 5000,
-    },
-  ],
-  // [Optional] Notification settings
-  notification: {
-    // [Optional] Notification webhook settings, if not specified, no notification will be sent
-    // More info at Wiki: https://github.com/lyc8503/UptimeFlare/wiki/Setup-notification
-    webhook: {
-      // [Required] webhook URL (example: Telegram Bot API)
-      url: 'https://api.telegram.org/bot123456:ABCDEF/sendMessage',
-      // [Optional] HTTP method, default to 'GET' for payloadType=param, 'POST' otherwise
-      // method: 'POST',
-      // [Optional] headers to be sent
-      // headers: {
-      //   foo: 'bar',
-      // },
-      // [Required] Specify how to encode the payload
-      // Should be one of 'param', 'json' or 'x-www-form-urlencoded'
-      // 'param': append url-encoded payload to URL search parameters
-      // 'json': POST json payload as body, set content-type header to 'application/json'
-      // 'x-www-form-urlencoded': POST url-encoded payload as body, set content-type header to 'x-www-form-urlencoded'
-      payloadType: 'x-www-form-urlencoded',
-      // [Required] payload to be sent
-      // $MSG will be replaced with the human-readable notification message
-      payload: {
-        chat_id: 12345678,
-        text: '$MSG',
-      },
-      // [Optional] timeout calling this webhook, in millisecond, default to 5000
+      id: 'image_hosting_site',
+      name: '🖼️ 图床 (55633000.ccwu.cc/图床)',
+      method: 'GET',
+      target: 'https://55633000.ccwu.cc/%E5%9B%BE%E5%BA%8A', // URL 编码版本
+      // 如果你服务端用的是英文路径 /image，改成下面这行：
+      // target: 'https://55633000.ccwu.cc/image',
+      tooltip: '个人图床，基于 Cloudflare 存储',
+      statusPageLink: 'https://55633000.ccwu.cc/%E5%9B%BE%E5%BA%8A',
+      expectedCodes: [200, 301, 302],
       timeout: 10000,
     },
-    // [Optional] timezone used in notification messages, default to "Etc/GMT"
+
+    // =============================================
+    // 监控项 4：订阅管理系统 (dy.mxdl.ccwu.cc)
+    // =============================================
+    {
+      id: 'dy_subscribe_system',
+      name: '📡 订阅管理系统 (dy.mxdl.ccwu.cc)',
+      method: 'GET',
+      target: 'http://dy.mxdl.ccwu.cc/',
+      tooltip: '订阅管理系统（如 RSS 订阅等）',
+      statusPageLink: 'http://dy.mxdl.ccwu.cc/',
+      expectedCodes: [200, 301, 302],
+      timeout: 10000,
+    },
+
+    // =============================================
+    // 如果你想监控 TCP 端口（例如 SSH、数据库），可以参考下面的示例
+    // =============================================
+    // {
+    //   id: 'ssh_monitor',
+    //   name: '🔒 SSH 服务 (22端口)',
+    //   method: 'TCP_PING',           // 注意：TCP 监控使用 'TCP_PING'
+    //   target: '你的服务器IP:22',      // 格式：IP:端口
+    //   tooltip: '服务器 SSH 端口',
+    //   statusPageLink: 'ssh://你的服务器IP',
+    //   timeout: 5000,
+    // },
+  ],
+
+  // -------- 通知配置（可选，不配置则不发送告警） --------
+  notification: {
+    // 示例：Telegram 机器人通知（按需配置）
+    webhook: {
+      // ⚠️ 替换为你的 Telegram Bot API URL
+      url: 'https://api.telegram.org/bot你的BotToken/sendMessage',
+      // payloadType: 'param' | 'json' | 'x-www-form-urlencoded'
+      // 'param': 将 payload 拼接到 URL 参数
+      // 'json': 以 JSON 格式 POST 发送
+      // 'x-www-form-urlencoded': 以表单格式 POST 发送（Telegram 通常用这个）
+      payloadType: 'x-www-form-urlencoded',
+      payload: {
+        chat_id: '你的聊天ID',  // 可以是群组 ID 或个人 ID
+        text: '$MSG',          // $MSG 会被自动替换为告警消息
+        // 你可以添加更多参数，例如 disable_notification: true
+      },
+      timeout: 10000,
+    },
+    // 时区设置（影响通知消息中的时间显示）
     timeZone: 'Asia/Shanghai',
-    // [Optional] grace period in minutes before sending a notification
-    // notification will be sent only if the monitor is down for N continuous checks after the initial failure
-    // if not specified, notification will be sent immediately
+    // 宽限期（分钟）：服务连续宕机 N 分钟后才发送通知，避免误报
     gracePeriod: 5,
   },
+
+  // -------- 高级设置（一般保持默认即可） --------
+  // 监控间隔（单位：秒），默认 60 秒
+  // 如果你的 Cloudflare 免费额度紧张，可调大到 120 或 300
+  // checkInterval: 120,
 }
 
-// You can define multiple maintenances here
-// During maintenance, an alert will be shown at status page
-// Also, related downtime notifications will be skipped (if any)
-// Of course, you can leave it empty if you don't need this feature
-
-// const maintenances: MaintenanceConfig[] = []
-
+// ============================================================
+// 3. 维护窗口配置（可选）
+// 当服务器需要维护时，在状态页显示维护公告，并暂停告警
+// ============================================================
 const maintenances: MaintenanceConfig[] = [
-  {
-    // [Optional] Monitor IDs to be affected by this maintenance
-    monitors: ['foo_monitor', 'bar_monitor'],
-    // [Optional] default to "Scheduled Maintenance" if not specified
-    title: 'Test Maintenance',
-    // Description of the maintenance, will be shown at status page
-    body: 'This is a test maintenance, server software upgrade',
-    // Start time of the maintenance, in UNIX timestamp or ISO 8601 format
-    start: '2020-01-01T00:00:00+08:00',
-    // [Optional] end time of the maintenance, in UNIX timestamp or ISO 8601 format
-    // if not specified, the maintenance will be considered as on-going
-    end: '2050-01-01T00:00:00+08:00',
-    // [Optional] color of the maintenance alert at status page, default to "yellow"
-    color: 'blue',
-  },
+  // 示例：如果你计划在 2026-08-01 维护服务器，可以启用下面的配置
+  // {
+  //   // 受影响的监控项 ID（不指定则所有监控项都显示维护状态）
+  //   monitors: ['kk_main_site', 'blog_site', 'image_hosting_site', 'dy_subscribe_system'],
+  //   title: '⏳ 计划维护中',           // 维护标题
+  //   body: '服务器正在升级，预计 2 小时内恢复', // 详细说明
+  //   start: '2026-08-01T02:00:00+08:00', // 维护开始时间（ISO 8601 格式）
+  //   end: '2026-08-01T04:00:00+08:00',   // 维护结束时间（可选）
+  //   color: 'blue',                     // 颜色: 'yellow' | 'blue' | 'red' | 'green'
+  // },
 ]
 
-// Don't edit this line
+// ============================================================
+// 导出配置（不要修改这行，保持原样）
+// ============================================================
 export { maintenances, pageConfig, workerConfig }
